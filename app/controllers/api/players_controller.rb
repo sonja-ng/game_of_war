@@ -9,15 +9,18 @@ class Api::PlayersController < ApplicationController
     end
 
     def show
-        @player = Player.find(params[:id])
-        render :show
+        @player = Player.find_by(id: params[:id])
+        if @player
+            render :show
+        else
+            render json: { error: "Player does not exist."}
+        end
     end
 
     def update
         @player = Player.find(params[:id])
-        if @player.update(player_params)
-            render :show
-        end
+        @player.update(player_params)
+        render :show
     end
 
     
